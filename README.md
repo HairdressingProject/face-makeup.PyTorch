@@ -47,9 +47,10 @@ Change hair and lip color:
 python makeup.py --img-path imgs/116.jpg
 ```
 ### Try to use other colors:
-Change the color list in **makeup.py**(line 83)
+Change the color list in **makeup.py**(line 207)
+
 ```
-colors = [[230, 50, 20], [20, 70, 180], [20, 70, 180]]
+hair_ = color=[133, 25, 11] #blue
 ```
 ### Train face parsing model (optional)
 Follow this repo [zllrunning/face-parsing.PyTorch](https://github.com/zllrunning/face-parsing.PyTorch)

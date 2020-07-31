@@ -44,6 +44,18 @@ def sharpen(img):
     return np.array(img_out, dtype=np.uint8)
 
 
+#
+# Notes: https://www.geeksforgeeks.org/python-opencv-cv2-cvtcolor-method/
+#
+# Syntax: cv2.cvtColor(src, code[, dst[, dstCn]])
+# Parameters:
+# src: It is the image whose color space is to be changed.
+# code: It is the color space conversion code.
+# dst: It is the output image of the same size and depth as src image. It is an optional parameter.
+# dstCn: It is the number of channels in the destination image. If the parameter is 0 then the number of the channels is derived automatically from src and code. It is an optional parameter.
+
+# Return Value: It returns an image matrix.
+
 def hair(image, parsing, part=17, color=[230, 250, 250]):
     b, g, r = color  # [10, 50, 250]       # [10, 250, 10]
     tar_color = np.zeros_like(image)
@@ -169,7 +181,7 @@ if __name__ == "__main__":
         "lower_lip": 13,
     }
 
-    image_path = "/home/aziz/Projects/face/imgs/6.jpg"
+    image_path = args.img_path
     cp = "cp/79999_iter.pth"
 
     image = cv2.imread(image_path)
@@ -179,8 +191,8 @@ if __name__ == "__main__":
 
     parts = [
         table["hair"],
-        table["lower_lip"],
-        table["upper_lip"],
+        ## table["lower_lip"],
+        ## table["upper_lip"],
     ]
 
     alpha_slider_max = 255
@@ -191,7 +203,12 @@ if __name__ == "__main__":
         image = cv2.imread(image_path)
 
         lips = np.random.randint(1, 255, (3))
-        hair_ = np.random.randint(1, 255, (3))
+        ## hair_ = np.random.randint(1, 255, (3))
+        ## hair_ = color=[133, 25, 11] #blue
+        ## hair_ = color=[11, 25, 133] #red
+        ## hair_ = color=[3, 99, 29] #green
+        hair_ = color=[11, 32, 51] #dye
+
         colors = np.array([hair_, lips, lips])
 
         for part, color in zip(parts, colors):
@@ -202,11 +219,11 @@ if __name__ == "__main__":
         dst = cv2.bilateralFilter(image, 30, 75, 75)
 
         img = np.hstack((ori, dst))
-        plt.imshow(cv2.cvtColor(cv2.resize(img, (2048, 1024)), cv2.COLOR_BGR2RGB))
-        plt.show()
-        # cv2.imwrite("makeup.jpg", cv2.resize(img, (1536, 512)))
+        ## plt.imshow(cv2.cvtColor(cv2.resize(img, (2048, 1024)), cv2.COLOR_BGR2RGB))
+        ## plt.show()
+        ## cv2.imwrite("makeup.jpg", cv2.resize(img, (1536, 512)))
 
-        # cv2.imshow('color', cv2.resize(image, (512, 512)))
+        cv2.imshow('color', cv2.resize(image, (512, 512)))
         # cv2.imwrite('image_1.jpg', cv2.resize(ori, (512, 512)))
         # cv2.imwrite('makeup.jpg', cv2.resize(img, (1536, 512)))
 
