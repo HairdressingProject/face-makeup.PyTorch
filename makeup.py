@@ -7,7 +7,7 @@ from test import evaluate
 from skimage.filters import gaussian
 
 # plt.switch_backend("qt5Agg")
-plt.switch_backend("tkAgg")
+# plt.switch_backend("tkAgg")
 
 SEGMENTS = {
     "background": 0,
@@ -29,7 +29,7 @@ def sharpen(img):
     img = img * 1.0
     gauss_out = gaussian(img, sigma=5, multichannel=True)
 
-    alpha = 1.5
+    alpha = 0.25
     img_out = (img - gauss_out) * alpha + img
 
     img_out = img_out / 255.0
@@ -54,7 +54,6 @@ def sharpen(img):
 # dst: It is the output image of the same size and depth as src image. It is an optional parameter.
 # dstCn: It is the number of channels in the destination image. If the parameter is 0 then the number of the channels is derived automatically from src and code. It is an optional parameter.
 
-# Return Value: It returns an image matrix.
 
 def hair(image, parsing, part=17, color=[230, 250, 250]):
     b, g, r = color  # [10, 50, 250]       # [10, 250, 10]
@@ -173,16 +172,21 @@ if __name__ == "__main__":
  """
     parse = argparse.ArgumentParser()
     parse.add_argument("--img-path", default="imgs/before.jpg")
+    parse.add_argument("--hair-color", default="imgs/before.jpg")
+    parse.add_argument("--img-output", default="makeup_output.jpg")
     args = parse.parse_args()
+
+    print(args)
 
     table = {
         "hair": 17,
-        "upper_lip": 12,
-        "lower_lip": 13,
+        # "upper_lip": 12,
+        # "lower_lip": 13,
     }
 
+    # image_path = "imgs/0.jpg"
     image_path = args.img_path
-    cp = "cp/79999_iter.pth"
+    cp = "face-makeup/cp/79999_iter.pth"
 
     image = cv2.imread(image_path)
     ori = image.copy()
@@ -191,8 +195,8 @@ if __name__ == "__main__":
 
     parts = [
         table["hair"],
-        ## table["lower_lip"],
-        ## table["upper_lip"],
+        # table["lower_lip"],
+        # table["upper_lip"],
     ]
 
     alpha_slider_max = 255
@@ -202,12 +206,15 @@ if __name__ == "__main__":
     for i in range(2):
         image = cv2.imread(image_path)
 
-        lips = np.random.randint(1, 255, (3))
-        ## hair_ = np.random.randint(1, 255, (3))
-        ## hair_ = color=[133, 25, 11] #blue
-        ## hair_ = color=[11, 25, 133] #red
-        ## hair_ = color=[3, 99, 29] #green
-        hair_ = color=[11, 32, 51] #dye
+        # lips = np.random.randint(1, 255, (3))
+        lips = color=[237,98,126]
+        # hair_ = np.random.randint(1, 255, (3))
+        # hair_ = color=[133, 25, 11] #blue
+        # hair_ = color=[11, 25, 133] #red
+        # hair_ = color=[3, 99, 29] #green
+        # hair_ = color=[11, 32, 51] #dye
+        hair_ = color=[197, 21, 228] #new
+
 
         colors = np.array([hair_, lips, lips])
 
@@ -219,11 +226,13 @@ if __name__ == "__main__":
         dst = cv2.bilateralFilter(image, 30, 75, 75)
 
         img = np.hstack((ori, dst))
-        ## plt.imshow(cv2.cvtColor(cv2.resize(img, (2048, 1024)), cv2.COLOR_BGR2RGB))
-        ## plt.show()
-        ## cv2.imwrite("makeup.jpg", cv2.resize(img, (1536, 512)))
+        # plt.imshow(cv2.cvtColor(cv2.resize(img, (2048, 1024)), cv2.COLOR_BGR2RGB))
+        # plt.show()
+        
+        ## cv2.imwrite("makeup_output.jpg", cv2.resize(img, (1024, 512)))
+        cv2.imwrite(args.img_output, cv2.resize(img, (1024, 512)))
 
-        cv2.imshow('color', cv2.resize(image, (512, 512)))
+        ## cv2.imshow('color', cv2.resize(image, (512, 512)))
         # cv2.imwrite('image_1.jpg', cv2.resize(ori, (512, 512)))
         # cv2.imwrite('makeup.jpg', cv2.resize(img, (1536, 512)))
 
