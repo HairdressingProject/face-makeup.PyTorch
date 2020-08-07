@@ -177,7 +177,14 @@ if __name__ == "__main__":
     parse = argparse.ArgumentParser()
     parse.add_argument("--img-path", default="imgs/before.jpg")
     parse.add_argument("--hair-color", default="imgs/before.jpg")
-    parse.add_argument("--img-output", default="makeup_output.jpg")
+    
+
+    # generate random hash
+    r = random.getrandbits(128)
+    o = hashlib.md5(str(r).encode())
+    
+    parse.add_argument("--img-output", default = o.hexdigest() + '.jpg')
+
     args = parse.parse_args()
 
     print(args)
@@ -242,9 +249,10 @@ if __name__ == "__main__":
           crop_img = Image.open(args.img_output)
           b = (512,0,1024,512)
           crop_img = crop_img.crop(box=b)
-          r = random.getrandbits(128)
-          o = hashlib.md5(str(r).encode())
-          crop_img.save(o.hexdigest() + '.jpg')
+          #r = random.getrandbits(128)
+          #o = hashlib.md5(str(r).encode())
+          #crop_img.save(o.hexdigest() + '.jpg')
+          crop_img.save(args.img_output)
 
 
         ## cv2.imshow('color', cv2.resize(image, (512, 512)))
