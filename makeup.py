@@ -33,7 +33,7 @@ def sharpen(img):
     img = img * 1.0
     gauss_out = gaussian(img, sigma=5, multichannel=True)
 
-    alpha = 0.25
+    alpha = .7
     img_out = (img - gauss_out) * alpha + img
 
     img_out = img_out / 255.0
@@ -216,8 +216,8 @@ if __name__ == "__main__":
         # hair_ = color=[133, 25, 11] #blue
         # hair_ = color=[11, 25, 133] #red
         # hair_ = color=[3, 99, 29] #green
-        # hair_ = color=[11, 32, 51] #dye
-        hair_ = color=[197, 21, 228] #new
+        hair_ = color=[11, 32, 51] #dye
+        # hair_ = color=[197, 21, 228] #new
 
 
         colors = np.array([hair_, lips, lips])
