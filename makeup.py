@@ -2,9 +2,13 @@ import cv2
 import argparse
 import numpy as np
 import matplotlib.pyplot as plt
+import hashlib
+import random
 
 from test import evaluate
 from skimage.filters import gaussian
+
+from PIL import Image
 
 # plt.switch_backend("qt5Agg")
 # plt.switch_backend("tkAgg")
@@ -203,7 +207,7 @@ if __name__ == "__main__":
     title_window = "Linear Blend"
 
     change_color(image, parsing, u_lip=(255, 0, 0), l_lip=(255, 0, 0))
-    for i in range(2):
+    for i in range(1):
         image = cv2.imread(image_path)
 
         # lips = np.random.randint(1, 255, (3))
@@ -229,8 +233,19 @@ if __name__ == "__main__":
         # plt.imshow(cv2.cvtColor(cv2.resize(img, (2048, 1024)), cv2.COLOR_BGR2RGB))
         # plt.show()
         
-        ## cv2.imwrite("makeup_output.jpg", cv2.resize(img, (1024, 512)))
+        cv2.imwrite("makeup_output.jpg", cv2.resize(img, (1024, 512)))
         cv2.imwrite(args.img_output, cv2.resize(img, (1024, 512)))
+
+        print(cv2.imwrite(args.img_output, cv2.resize(img, (1024, 512))))
+        
+        if (cv2.imwrite(args.img_output, cv2.resize(img, (1024, 512)))):
+          crop_img = Image.open(args.img_output)
+          b = (512,0,1024,512)
+          crop_img = crop_img.crop(box=b)
+          r = random.getrandbits(128)
+          o = hashlib.md5(str(r).encode())
+          crop_img.save(o.hexdigest() + '.jpg')
+
 
         ## cv2.imshow('color', cv2.resize(image, (512, 512)))
         # cv2.imwrite('image_1.jpg', cv2.resize(ori, (512, 512)))
