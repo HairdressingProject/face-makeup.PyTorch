@@ -190,7 +190,7 @@ if __name__ == "__main__":
 
     # image_path = "imgs/0.jpg"
     image_path = args.img_path
-    cp = "face-makeup/cp/79999_iter.pth"
+    cp = "cp/79999_iter.pth"
 
     image = cv2.imread(image_path)
     ori = image.copy()
