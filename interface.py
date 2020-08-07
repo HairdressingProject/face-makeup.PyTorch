@@ -16,11 +16,20 @@ app = Flask(__name__)
 
 # localhost:5000/demo?u_lip=0,0,255&l_lip=0,0,255&hair=0,0,255&skin=255,255,255
 
+# localhost:5000/demo?5&hair_colour=0,0,255&face_shape=round,hair_style=short_01
+
 
 @app.route("/demo", methods=["GET"])
 def apply_makeup():
     r = request
+    # print("Print r")
+    # print(r)
+    # print(r.data)
+    # print(np.uint8)
+    # print(request.args)
     np_array = np.frombuffer(r.data, np.uint8)
+    # print("Print np_array")
+    # print(np_array)
     img = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
 
     cp = "cp/79999_iter.pth"
@@ -51,7 +60,7 @@ def apply_makeup():
 
 if __name__ == "__main__":
     app.debug = True
-    app.run()
+    app.run(host='178.128.94.81')
 
 
 #
